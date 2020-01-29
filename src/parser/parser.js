@@ -1,4 +1,5 @@
 const Map = require('./ms.json')
+const Syllable = require('./syllable.json')
 
 var Parser = {
   map: Map,
