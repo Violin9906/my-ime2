@@ -3,17 +3,31 @@ const Syllable = require('./syllable.json')
 
 var Parser = {
   map: Map,
-  search: function (key) {
-    var index
-    for (index in this.map) {
-      if (this.map[index].key === 'key') {
-        return this.map[index]
-      }
-    }
-    return null
-  },
   parse: function (text) {
-    var result = ''
+    var result = new String()
+    var i = 0, syllableFlag = false
+
+    TRAVERSE:
+    while (i < text.length) {
+      for (var init in Map[text.charAt(i)]) {
+        for (var final in Map[text.charAt(i + 1)]) {
+          if (Syllable[init] && Syllable[init][final]) {
+            result += init + final + ' '
+            syllableFlag = true
+            i += 2
+            continue TRAVERSE
+          }
+        }
+      }
+      // Not a syllable
+      if (syllableFlag) {
+        result += ' ' + text.charAt(i)
+      } else {
+        result += text.charAt(i)
+      }
+      syllableFlag = false
+      i++
+    }
     return result
   }
 }
