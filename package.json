@@ -13,7 +13,8 @@
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
-    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
+    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
+    "test": "nyc mocha ./tests"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -28,6 +29,7 @@
     "archiver": "^3.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.2",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
@@ -45,8 +47,11 @@
     "file-loader": "^5.0.2",
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^0.9.0",
+    "mocha": "^7.0.1",
     "node-sass": "^4.9.3",
+    "nyc": "^15.0.0",
     "sass-loader": "^7.1.0",
+    "sinon": "^8.1.1",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.20.2",
