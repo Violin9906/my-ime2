@@ -11,8 +11,20 @@ var Parser = {
     while (i < text.length) {
       for (var init in Map[text.charAt(i)]) {
         for (var final in Map[text.charAt(i + 1)]) {
-          if (Syllable[init] && Syllable[init][final]) {
-            result += init + final + ' '
+          if (Syllable[Map[text.charAt(i)][init]] && Syllable[Map[text.charAt(i)][init]][Map[text.charAt(i + 1)][final]]) {
+            if (Map[text.charAt(i)][init] !== ' ') {
+              if (i == 0) {
+                result += Map[text.charAt(i)][init] + Map[text.charAt(i + 1)][final]
+              } else {
+                result += ' ' + Map[text.charAt(i)][init] + Map[text.charAt(i + 1)][final]
+              }
+            } else {
+              if (i == 0) {
+                result += Map[text.charAt(i + 1)][final]
+              } else {
+                result += ' ' + Map[text.charAt(i + 1)][final]
+              }
+            }
             syllableFlag = true
             i += 2
             continue TRAVERSE
