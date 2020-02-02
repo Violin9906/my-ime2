@@ -50,6 +50,7 @@ var Candidate = {
   set: function (text) {
     this.rawText = text
     var transerResult = null
+    // TODO
     for (var i = 0; i < this.transer.length; i++) {
       transerResult = this.transer[i].trans(this.rawText, 0)
       if (transerResult) {
