@@ -4,6 +4,7 @@ import * as Composition from './composition.js'
 import * as Candidate from './candidate.js'
 
 import * as Parser from '../parser/parser.js'
+import * as Match from '../dict/match.js'
 
 var MyIME = {
   itemPerPage: 5,
@@ -14,7 +15,7 @@ var MyIME = {
   candidate: null,
   mode: null,
   parser: new Parser(),
-  transer: null,
+  transer: [new Match()],
   stage: 0, // stage 0: outer ime; stage 1: inner ime, inputing; stage 2: inner ime, selecting characters
   innerQuote: false,
   innerDoubleQuote: false,

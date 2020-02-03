@@ -1,3 +1,4 @@
+// 这到底是一坨什么鬼，我为什么要写这个模块
 var Buffer = {
   raw: '',
   parsed: {
@@ -12,14 +13,14 @@ var Buffer = {
     this.parser = parser
   },
   parse: function () {
-    this.parsed = this.parser.parseSP(this.raw)
+    this.parsed = this.parser.parse(this.raw)
   },
   calcCursor: function () {
-    var beforeCursor = this.parser.parseSP(this.raw.slice(0, this.cursor))
+    var beforeCursor = this.parser.parse(this.raw.slice(0, this.cursor))
     return beforeCursor.text.length + beforeCursor.space.length
   },
   calcCursorWithoutSpace: function () {
-    var beforeCursor = this.parser.parseSP(this.raw.slice(0, this.cursor))
+    var beforeCursor = this.parser.parse(this.raw.slice(0, this.cursor))
     return beforeCursor.text.length
   },
   addChar: function (char) {

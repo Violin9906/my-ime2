@@ -1,3 +1,4 @@
+// 虽然看不懂了不过最好还是别动它
 var Composition = {
   contextID: null,
   text: '',

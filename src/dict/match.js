@@ -4,7 +4,7 @@ const Dicts = [BasicDict]
 
 var Match = {
   result: [],
-  get: function (text) {
+  trans: function (text) {
     this.result = []
     for (var i in Dicts) {
       if (Dicts[i][text]) {
