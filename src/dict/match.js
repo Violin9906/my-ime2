@@ -5,6 +5,7 @@ const Dicts = [BasicDict]
 var Match = {
   result: [],
   get: function (text) {
+    this.result = []
     for (var i in Dicts) {
       if (Dicts[i][text]) {
         // all match

@@ -8,10 +8,19 @@ describe('Microsoft layout parser test:', function () {
         expect(Parser.parse('nihkoa')).to.equal('ni hao a')
     })
     it('un-syllable test 1', function () {
-        expect(Parser.parse('woybyigemp')).to.equal('wo you yi ge mp')
+        expect(Parser.parse('woybyigemp')).to.equal('wo you yi ge m p')
     })
     it('un-syllable test 2', function () {
-        expect(Parser.parse('gck')).to.equal('g cao')
+        expect(Parser.parse('vqm')).to.equal('zh qian')
+    })
+    it('un-syllable test 3', function () {
+        expect(Parser.parse('u')).to.equal('sh')
+    })
+    it('un-syllable test 4', function () {
+        expect(Parser.parse('vgkxjudx')).to.equal('zheng k x ju die')
+    })
+    it('un-syllable test 5', function () {
+        expect(Parser.parse('l;g;')).to.equal('ling g ；')
     })
     it('zero-init test', function () {
         expect(Parser.parse('oawosile')).to.equal('a wo si le')
