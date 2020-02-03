@@ -64,13 +64,7 @@ var MyIME = {
   inputChar: function (char) {
     this.buffer.addChar(char)
     this.buffer.parse()
-    var spacedStr = this.buffer.parsed.text
-    for (var i = this.buffer.parsed.space.length - 1; i >= 0; i--) {
-      spacedStr =
-        spacedStr.slice(0, this.buffer.parsed.space[i]) +
-        ' ' +
-        spacedStr.slice(this.buffer.parsed.space[i])
-    }
+    var spacedStr = this.buffer.parsed.spacedText
     this.composition.set(spacedStr, this.buffer.calcCursor())
     this.candidate.set(this.buffer.parsed.text)
   },

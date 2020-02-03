@@ -1,10 +1,7 @@
 // 这到底是一坨什么鬼，我为什么要写这个模块
 var Buffer = {
   raw: '',
-  parsed: {
-    text: '',
-    space: []
-  },
+  parsed: null,
   selected: [],
   cursor: 0,
   parser: null,
@@ -35,10 +32,7 @@ var Buffer = {
   },
   clear: function () {
     this.raw = ''
-    this.parsed = {
-      text: '',
-      space: []
-    }
+    this.parsed = null
     this.selected = []
     this.cursor = 0
   },
