@@ -9,11 +9,12 @@ var Candidate = {
   itemPerPage: null,
   transer: null,
 
-  Candidate: function (engineID, contextID, transer, itemPerPage) {
+  Init: function (engineID, contextID, transer, itemPerPage) {
     this.engineID = engineID
     this.contextID = contextID
     this.transer = transer
     this.itemPerPage = itemPerPage
+    return this
   },
   show: function () {
     chrome.input.ime.setCandidateWindowProperties({

@@ -6,8 +6,9 @@ var Buffer = {
   cursor: 0,
   parser: null,
 
-  Buffer: function (parser) {
+  Init: function (parser) {
     this.parser = parser
+    this.clear()
   },
   parse: function () {
     this.parsed = this.parser.parse(this.raw)

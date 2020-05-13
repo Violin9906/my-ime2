@@ -4,7 +4,7 @@ var Composition = {
   text: '',
   cursor: 0,
 
-  Composition: function (contextID) {
+  Init: function (contextID) {
     this.contextID = contextID
   },
   clear: function () {

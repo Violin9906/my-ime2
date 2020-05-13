@@ -1,4 +1,4 @@
-export var Mode = {
+var Mode = {
   inputWhilePressShift: false,
   current: 'en',
   switchMode: function (keyData) {
@@ -12,10 +12,10 @@ export var Mode = {
         // TODO add a prompting when switch mode
         if (this.current === 'en') {
           this.current = 'zh'
-          // console.log('Mode switch to zh')
+          console.log('Mode switch to zh')
         } else {
           this.current = 'en'
-          // console.log('Mode switch to en')
+          console.log('Mode switch to en')
           return true
         }
       }
@@ -23,3 +23,5 @@ export var Mode = {
     return false
   }
 }
+
+module.exports = Mode

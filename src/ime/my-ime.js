@@ -1,34 +1,33 @@
-import * as Mode from './mode.js'
-import * as Buffer from './buffer.js'
-import * as Composition from './composition.js'
-import * as Candidate from './candidate.js'
+var Mode = require('./mode.js')
+var Buffer = require('./buffer.js')
+var Composition = require('./composition.js')
+var Candidate = require('./candidate.js')
 
-import * as Parser from '../parser/parser.js'
-import * as Match from '../dict/match.js'
+var Parser = require('../parser/parser.js')
+var Match = require('../dict/match.js')
 
 var MyIME = {
   itemPerPage: 5,
   engineID: null,
   contextID: null,
-  buffer: null,
-  composition: null,
-  candidate: null,
-  mode: null,
-  parser: new Parser(),
-  transer: [new Match()],
-  stage: 0, // stage 0: outer ime; stage 1: inner ime, inputing; stage 2: inner ime, selecting characters
+  buffer: Buffer,
+  composition: Composition,
+  candidate: Candidate,
+  mode: Mode,
+  parser: Parser,
+  transer: [Match],
+  stage: 0, // stage 0: outer ime; stage 1: inner ime, inputting; stage 2: inner ime, selecting characters
   innerQuote: false,
   innerDoubleQuote: false,
 
-  MyIME: function (engineID) {
+  Init: function (engineID) {
     this.engineID = engineID
   },
   onFocus: function (contextID) {
     this.contextID = contextID
-    this.mode = new Mode()
-    this.buffer = new Buffer(this.parser)
-    this.composition = new Composition(this.contextID)
-    this.candidate = new Candidate(
+    this.buffer.Init(this.parser)
+    this.composition.Init(this.contextID)
+    this.candidate.Init(
       this.engineID,
       this.contextID,
       this.transer,
@@ -38,10 +37,6 @@ var MyIME = {
   },
   onBlur: function () {
     this.clearInput()
-    this.contextID = null
-    this.mode = null
-    this.composition = null
-    this.candidate = null
   },
   onReset: function () {
     this.clearInput()
@@ -170,10 +165,12 @@ var MyIME = {
     }
   },
   handleKeyEvent: function (keyData) {
+    console.log('HKE:')
+    console.log(this)
     // TODO need fully fully fully rewrite
 
     // switch modes(Use SHIFT)
-    if (this.mode.switchModeToEn(keyData)) {
+    if (this.mode.switchMode(keyData)) {
       this.commitText(this.buffer.raw)
       this.clearInput()
       return true

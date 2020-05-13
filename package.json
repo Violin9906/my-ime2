@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.vue --fix src",
-    "build": "cross-env NODE_ENV=production webpack --hide-modules",
+    "build": "cross-env NODE_ENV=production webpack",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "npm run build && node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
@@ -29,6 +29,7 @@
     "archiver": "^3.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.2",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.0.1",

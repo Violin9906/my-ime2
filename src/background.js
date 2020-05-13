@@ -19,7 +19,9 @@ chrome.input.ime.onReset.addListener(function (engineID) {
 
 chrome.input.ime.onActivate.addListener(function (engineID) {
   console.log('onActivate:' + engineID)
-  ime = new MyIME(engineID)
+  ime = MyIME
+  MyIME.Init(engineID)
+  console.log('IME:')
   console.log(ime)
 })
 
