@@ -88,8 +88,10 @@ var MyIME = {
   },
   select: function () {
     var select = this.candidate.select()
+    console.log(select)
     if (select) {
       this.buffer.pushSelected(select)
+      console.log(this.buffer)
       // whether need commit
       if (
         this.buffer.calcSelectedLetter() ===
@@ -165,8 +167,6 @@ var MyIME = {
     }
   },
   handleKeyEvent: function (keyData) {
-    console.log('HKE:')
-    console.log(this)
     // TODO need fully fully fully rewrite
 
     // switch modes(Use SHIFT)

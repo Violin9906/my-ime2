@@ -171,7 +171,7 @@ var Candidate = {
     }
   },
   select: function () {
-    return this.transBack[this.cursor]
+    return this.transBack[this.cursor + this.page * this.itemPerPage]
   }
 }
 

@@ -10,15 +10,15 @@ var Match = {
       if (Dicts[i][text]) {
         // all match
         for (var char in Dicts[i][text]) {
-          this.result.push({'char': Dicts[i][text][char], 'pinyin': text})
+          this.result.push({ char: Dicts[i][text][char], pinyin: text })
         }
       } else {
         // partical match
         var index = text.length
-        while (index != -1) {
+        while (index !== -1) {
           if (Dicts[i][text.slice(0, index)]) {
-            for (var char in Dicts[i][text.slice(0, index)]) {
-              this.result.push({'char': Dicts[i][text.slice(0, index)][char], 'pinyin': text.slice(0, index)})
+            for (char in Dicts[i][text.slice(0, index)]) {
+              this.result.push({ char: Dicts[i][text.slice(0, index)][char], pinyin: text.slice(0, index) })
             }
           }
           index = text.slice(0, index).lastIndexOf(' ')

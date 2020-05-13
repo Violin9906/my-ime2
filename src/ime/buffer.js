@@ -1,4 +1,3 @@
-// 这到底是一坨什么鬼，我为什么要写这个模块
 var Buffer = {
   raw: '',
   parsed: null,
@@ -19,6 +18,7 @@ var Buffer = {
   },
   calcCursorWithoutSpace: function () {
     var beforeCursor = this.parser.parse(this.raw.slice(0, this.cursor))
+    console.log(beforeCursor.text)
     return beforeCursor.text.length
   },
   addChar: function (char) {
@@ -38,7 +38,9 @@ var Buffer = {
     this.cursor = 0
   },
   pushSelected: function (selected) {
+    console.log('Push:')
     this.selected.push(selected)
+    console.log(this.selected)
   },
   popSelected: function () {
     return this.selected.pop()
@@ -46,7 +48,8 @@ var Buffer = {
   calcSelectedLetter: function () {
     // need add "'"
     var sum = this.selected.reduce(function (prev, cur, index, array) {
-      return prev + parseInt(cur[1])
+      console.log(cur)
+      return prev + cur.pinyin.length
     }, 0)
     for (var i = 0; i < sum; i++) {
       if (this.parsed.text.charAt(i) === "'") {
@@ -58,8 +61,9 @@ var Buffer = {
   },
   mergeAllSelected: function () {
     var merge = ''
+    console.log(this.selected)
     for (var i = 0; i < this.selected.length; i++) {
-      merge += this.selected[i][0].toString()
+      merge += this.selected[i].char
     }
     console.log('MERGE: ' + merge)
     return merge

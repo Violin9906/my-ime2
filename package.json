@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.vue --fix src",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production webpack --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "npm run build && node scripts/build-zip.js",
     "watch": "npm run build -- --watch",

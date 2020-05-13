@@ -5,12 +5,14 @@ var Parser = {
   map: Map,
   parse: function (text) {
     var result = {
-      'text': '',
-      'space': [],
-      'spacedText': ''
+      text: '',
+      space: [],
+      spacedText: ''
     }
-    var i = 0, syllableFlag = false
+    var i = 0
+    // var syllableFlag = false
 
+    // eslint-disable-next-line no-labels
     TRAVERSE:
     while (i < text.length) {
       for (var init in Map[text.charAt(i)]) {
@@ -18,48 +20,50 @@ var Parser = {
           for (var final in Map[text.charAt(i + 1)]) {
             if (Syllable[Map[text.charAt(i)][init]] && Syllable[Map[text.charAt(i)][init]][Map[text.charAt(i + 1)][final]]) {
               if (Map[text.charAt(i)][init] !== ' ') {
-                if (i == 0) {
+                if (i === 0) {
                   result.text += Map[text.charAt(i)][init] + Map[text.charAt(i + 1)][final]
                 } else {
                   result.space.push(result.text.length)
                   result.text += Map[text.charAt(i)][init] + Map[text.charAt(i + 1)][final]
                 }
               } else {
-                if (i == 0) {
+                if (i === 0) {
                   result.text += Map[text.charAt(i + 1)][final]
                 } else {
                   result.space.push(result.text.length)
                   result.text += Map[text.charAt(i + 1)][final]
                 }
               }
-              syllableFlag = true
+              // syllableFlag = true
               i += 2
+              // eslint-disable-next-line no-labels
               continue TRAVERSE
             }
           }
         } else {
-          if (i == 0) {
+          if (i === 0) {
             result.text += Map[text.charAt(i)][0]
           } else {
             result.space.push(result.text.length)
             result.text += Map[text.charAt(i)][0]
           }
           i++
+          // eslint-disable-next-line no-labels
           continue TRAVERSE
         }
       }
       // Not a syllable
-      if (i == 0) {
+      if (i === 0) {
         result.text += Map[text.charAt(i)][0]
       } else {
         result.space.push(result.text.length)
         result.text += Map[text.charAt(i)][0]
       }
-      syllableFlag = false
+      // syllableFlag = false
       i++
     }
     result.spacedText = result.text
-    for (var i = result.space.length - 1; i >= 0; i--) {
+    for (i = result.space.length - 1; i >= 0; i--) {
       result.spacedText =
         result.spacedText.slice(0, result.space[i]) +
         ' ' +
