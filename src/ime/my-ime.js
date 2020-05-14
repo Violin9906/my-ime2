@@ -61,7 +61,7 @@ var MyIME = {
     this.buffer.parse()
     var spacedStr = this.buffer.parsed.spacedText
     this.composition.set(spacedStr, this.buffer.calcCursor())
-    this.candidate.set(this.buffer.parsed.text)
+    this.candidate.set(this.buffer.parsed.spacedText)
   },
   removeChar: function () {
     this.buffer.removeChar()
@@ -77,7 +77,7 @@ var MyIME = {
       this.clearInput()
     }
     this.composition.set(spacedStr, this.buffer.calcCursor())
-    this.candidate.set(this.buffer.parsed.text)
+    this.candidate.set(this.buffer.parsed.spacedText)
   },
   clearInput: function () {
     this.buffer.clear()
@@ -121,7 +121,7 @@ var MyIME = {
       this.composition.set(spacedStr, spacedStr.length)
       // update candidate
       this.candidate.set(
-        this.buffer.parsed.text.slice(this.buffer.calcSelectedLetter())
+        this.buffer.parsed.spacedText.slice(this.buffer.calcSelectedLetterWithSpace())
       )
       return true
     }

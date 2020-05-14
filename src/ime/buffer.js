@@ -59,6 +59,14 @@ var Buffer = {
     console.log('SUM: ' + sum)
     return sum
   },
+  calcSelectedLetterWithSpace: function () {
+    var selectedLetter = this.calcSelectedLetter()
+    var spaceCount = 0
+    for(var i = 0; this.parsed.space[i] <= selectedLetter; i++) {
+      spaceCount++
+    }
+    return selectedLetter + spaceCount
+  },
   mergeAllSelected: function () {
     var merge = ''
     console.log(this.selected)
