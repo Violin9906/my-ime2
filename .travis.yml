@@ -18,6 +18,7 @@ jobs:
       after_success:
         - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
         - tar -C ./dist -czvf $PKG_VERSION-dev.tar.gz ./
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
         - "echo VERSION: $PKG_VERSION"
         - "echo PRE_RELEASE: $PRE_RELEASE"
       deploy:
@@ -25,8 +26,7 @@ jobs:
           api_key: $GITHUB_TOKEN
           file: $PKG_VERSION-dev.tar.gz
           prerelease: true
-          name: $PKG_VERSION
-          body: "This is a develop version."
+          name: v$PKG_VERSION Develop version
           skip_cleanup: true
           on:
             branch: dev
@@ -40,6 +40,7 @@ jobs:
         - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
         - tar -C ./dist -czvf $PKG_VERSION.tar.gz ./
         - if [[ $PKG_VERSION =~ \.0$ ]]; then export PRE_RELEASE=false;echo F;else export PRE_RELEASE=true;echo T;fi
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
         - "echo VERSION: $PKG_VERSION"
         - "echo PRE_RELEASE: $PRE_RELEASE"
       deploy:
@@ -47,7 +48,7 @@ jobs:
           api_key: $GITHUB_TOKEN
           file: $PKG_VERSION.tar.gz
           prerelease: $PRE_RELEASE
-          name: $PKG_VERSION
+          name: v$PKG_VERSION
           body: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
           skip_cleanup: true
           on:
