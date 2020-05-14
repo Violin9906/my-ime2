@@ -17,7 +17,7 @@ jobs:
         - "yarn run build:dev"
       after_success:
         - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
-        - tar -czvf $PKG_VERSION-dev.tar.gz ./dist/*
+        - tar -C ./dist -czvf $PKG_VERSION-dev.tar.gz ./
         - "echo VERSION: $PKG_VERSION"
         - "echo PRE_RELEASE: $PRE_RELEASE"
       deploy:
@@ -38,7 +38,7 @@ jobs:
         - "yarn run build"
       after_success:
         - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
-        - tar -czvf $PKG_VERSION.tar.gz ./dist/*
+        - tar -C ./dist -czvf $PKG_VERSION.tar.gz ./
         - if [[ $PKG_VERSION =~ \.0$ ]]; then export PRE_RELEASE=false;echo F;else export PRE_RELEASE=true;echo T;fi
         - "echo VERSION: $PKG_VERSION"
         - "echo PRE_RELEASE: $PRE_RELEASE"
