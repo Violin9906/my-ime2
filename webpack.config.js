@@ -5,23 +5,29 @@ const ejs = require('ejs')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ExtensionReloader = require('webpack-extension-reloader')
+const { VueLoaderPlugin } = require('vue-loader')
 const { version } = require('./package.json')
 
 const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
-    'background': './background.js'
+    'background': './background.js',
+    'options/options': './options/options.js'
   },
   output: {
     path: __dirname + '/dist',
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.vue']
   },
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -55,6 +61,7 @@ const config = {
     new webpack.DefinePlugin({
       global: 'window'
     }),
+    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),
