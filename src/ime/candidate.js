@@ -79,11 +79,16 @@ var Candidate = {
       this.page--
 
       if (this.transBack) {
-        for (var j = 0; j < this.itemPerPage && j < this.transBack.length; j++) {
-          this.candidates[j] = {
-            candidate: this.transBack[this.page * this.itemPerPage + j].char,
-            id: j,
-            label: (j + 1).toString()
+        for (var j = 0; j < this.itemPerPage; j++) {
+          if (j < this.transBack.length - this.page * this.itemPerPage) {
+            this.candidates[j] = {
+              candidate: this.transBack[this.page * this.itemPerPage + j].char,
+              id: j,
+              label: (j + 1).toString()
+            }
+          } else {
+            this.candidates = this.candidates.slice(0, j)
+            break
           }
         }
         chrome.input.ime.setCandidates({
@@ -104,11 +109,16 @@ var Candidate = {
       this.page++
 
       if (this.transBack) {
-        for (var j = 0; j < this.itemPerPage && j < this.transBack.length; j++) {
-          this.candidates[j] = {
-            candidate: this.transBack[this.page * this.itemPerPage + j].char,
-            id: j,
-            label: (j + 1).toString()
+        for (var j = 0; j < this.itemPerPage; j++) {
+          if (j < this.transBack.length - this.page * this.itemPerPage) {
+            this.candidates[j] = {
+              candidate: this.transBack[this.page * this.itemPerPage + j].char,
+              id: j,
+              label: (j + 1).toString()
+            }
+          } else {
+            this.candidates = this.candidates.slice(0, j)
+            break
           }
         }
         chrome.input.ime.setCandidates({

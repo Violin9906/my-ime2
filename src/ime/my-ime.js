@@ -155,7 +155,7 @@ var MyIME = {
     this.composition.set(spacedStr, spacedStr.length)
     // update candidate
     this.candidate.set(
-      this.buffer.parsed.text.slice(this.buffer.calcSelectedLetter())
+      this.buffer.parsed.spacedText.slice(this.buffer.calcSelectedLetterWithSpace())
     )
     return true
   },
