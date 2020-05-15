@@ -17,14 +17,16 @@ jobs:
         - "yarn run build:dev"
       after_success:
         - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
-        - tar -C ./dist -czvf $PKG_VERSION-dev.tar.gz ./
+        - cd dist
+        - "zip -r ../$PKG_VERSION-dev.zip ./"
+        - cd ..
         - git tag v$PKG_VERSION-$TRAVIS_COMMIT
         - "echo VERSION: $PKG_VERSION"
         - "echo PRE_RELEASE: $PRE_RELEASE"
       deploy:
         - provider: releases
           api_key: $GITHUB_TOKEN
-          file: $PKG_VERSION-dev.tar.gz
+          file: $PKG_VERSION-dev.zip
           prerelease: true
           name: v$PKG_VERSION Develop version
           skip_cleanup: true
@@ -38,7 +40,9 @@ jobs:
         - "yarn run build"
       after_success:
         - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
-        - tar -C ./dist -czvf $PKG_VERSION.tar.gz ./
+        - cd dist
+        - "zip -r ../$PKG_VERSION.zip ./"
+        - cd ..
         - if [[ $PKG_VERSION =~ \.0$ ]]; then export PRE_RELEASE=false;echo F;else export PRE_RELEASE=true;echo T;fi
         - git tag v$PKG_VERSION-$TRAVIS_COMMIT
         - "echo VERSION: $PKG_VERSION"
@@ -46,7 +50,7 @@ jobs:
       deploy:
         - provider: releases
           api_key: $GITHUB_TOKEN
-          file: $PKG_VERSION.tar.gz
+          file: $PKG_VERSION.zip
           prerelease: $PRE_RELEASE
           name: v$PKG_VERSION
           body: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
