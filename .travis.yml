@@ -1,0 +1,80 @@
+language: node_js
+node_js:
+  - "12.13.1"
+
+jobs:
+  include:
+    - stage: test
+      install:
+        - "yarn install"
+      script:
+        - "yarn run test"
+    - stage: deploy-dev
+      if: branch = dev
+      install:
+        - "yarn install"
+      script:
+        - "yarn run build:dev"
+      after_success:
+        - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+        - cd dist
+        - "zip -r ../$PKG_VERSION-dev.zip ./"
+        - cd ..
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - "echo VERSION: $PKG_VERSION"
+      deploy:
+        - provider: releases
+          token: $GITHUB_TOKEN
+          file: $PKG_VERSION-dev.zip
+          prerelease: true
+          name: v$PKG_VERSION Develop version $TRAVIS_COMMIT
+          release_notes: "这是一个开发版本，可能存在大量严重bug。请将您使用过程中发现的问题在issue中报告。"
+          cleanup: false
+          on:
+            branch: dev
+    - stage: deploy-prerelease
+      if: branch = prerelease
+      install:
+        - "yarn install"
+      script:
+        - "yarn run build"
+      after_success:
+        - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+        - cd dist
+        - "zip -r ../$PKG_VERSION-pre.zip ./"
+        - cd ..
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - "echo VERSION: $PKG_VERSION"
+      deploy:
+        - provider: releases
+          token: $GITHUB_TOKEN
+          file: $PKG_VERSION-pre.zip
+          prerelease: true
+          name: v$PKG_VERSION Pre-release version
+          release_notes: "这是一个预发布版本，请将您使用过程中发现的问题在issue中报告。"
+          cleanup: false
+          on:
+            branch: prerelease
+    - stage: deploy
+      if: branch = master
+      install:
+        - "yarn install"
+      script:
+        - "yarn run build"
+      after_success:
+        - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+        - cd dist
+        - "zip -r ../$PKG_VERSION.zip ./"
+        - cd ..
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - "echo VERSION: $PKG_VERSION"
+      deploy:
+        - provider: releases
+          token: $GITHUB_TOKEN
+          file: $PKG_VERSION.zip
+          name: v$PKG_VERSION
+          prerelease: false
+          release_notes: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
+          cleanup: false
+          on:
+            branch: master
