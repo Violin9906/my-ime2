@@ -30,7 +30,7 @@ jobs:
           prerelease: true
           name: v$PKG_VERSION Develop version $TRAVIS_COMMIT
           release_notes: "这是一个开发版本，可能存在大量严重bug。请将您使用过程中发现的问题在issue中报告。"
-          cleanup: false
+          skip_cleanup: true
           on:
             branch: dev
     - stage: deploy-prerelease
@@ -53,7 +53,7 @@ jobs:
           prerelease: true
           name: v$PKG_VERSION Pre-release version
           release_notes: "这是一个预发布版本，请将您使用过程中发现的问题在issue中报告。"
-          cleanup: false
+          skip_cleanup: true
           on:
             branch: prerelease
     - stage: deploy
@@ -76,6 +76,6 @@ jobs:
           name: v$PKG_VERSION
           prerelease: false
           release_notes: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
-          cleanup: false
+          skip_cleanup: true
           on:
             branch: master
