@@ -20,6 +20,7 @@ jobs:
         - cd dist
         - "zip -r ../$PKG_VERSION-dev.zip ./"
         - cd ..
+        - ls
         - git tag v$PKG_VERSION-$TRAVIS_COMMIT
         - "echo VERSION: $PKG_VERSION"
       deploy:
