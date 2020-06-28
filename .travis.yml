@@ -1,0 +1,57 @@
+language: node_js
+node_js:
+  - "12.13.1"
+
+jobs:
+  include:
+    - stage: test
+      install:
+        - "yarn install"
+      script:
+        - "yarn run test"
+    - stage: deploy-dev
+      if: branch = dev
+      install:
+        - "yarn install"
+      script:
+        - "yarn run build:dev"
+      after_success:
+        - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+        - cd dist
+        - "zip -r ../$PKG_VERSION-dev.zip ./"
+        - cd ..
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - "echo VERSION: $PKG_VERSION"
+      deploy:
+        - provider: releases
+          token: $GITHUB_TOKEN
+          file: $PKG_VERSION-dev.zip
+          prerelease: true
+          name: v$PKG_VERSION Develop version
+          cleanup: false
+          on:
+            branch: dev
+    - stage: deploy
+      if: branch = master
+      install:
+        - "yarn install"
+      script:
+        - "yarn run build"
+      after_success:
+        - "export PKG_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+        - cd dist
+        - "zip -r ../$PKG_VERSION.zip ./"
+        - cd ..
+        - if [[ $PKG_VERSION =~ \.0$ ]]; then export PRE_RELEASE=false;echo F;else export PRE_RELEASE=true;echo T;fi
+        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - "echo VERSION: $PKG_VERSION"
+      deploy:
+        - provider: releases
+          token: $GITHUB_TOKEN
+          file: $PKG_VERSION.zip
+          name: v$PKG_VERSION
+          prerelease: $PRE_RELEASE
+          release_notes: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
+          cleanup: false
+          on:
+            branch: master
