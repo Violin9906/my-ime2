@@ -33,7 +33,7 @@ jobs:
           on:
             branch: dev
     - stage: deploy-prerelease
-      if: branch = prelease
+      if: branch = prerelease
       install:
         - "yarn install"
       script:
