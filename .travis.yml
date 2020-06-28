@@ -24,7 +24,7 @@ jobs:
         - "echo VERSION: $PKG_VERSION"
       deploy:
         - provider: releases
-          api_key: $GITHUB_TOKEN
+          token: $GITHUB_TOKEN
           file: $PKG_VERSION-dev.zip
           prerelease: true
           name: v$PKG_VERSION Develop version
@@ -47,10 +47,11 @@ jobs:
         - "echo VERSION: $PKG_VERSION"
       deploy:
         - provider: releases
-          api_key: $GITHUB_TOKEN
+          token: $GITHUB_TOKEN
           file: $PKG_VERSION.zip
           name: v$PKG_VERSION
-          body: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
+          prerelease: $PRE_RELEASE
+          release_notes: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
           cleanup: false
           on:
             branch: master
