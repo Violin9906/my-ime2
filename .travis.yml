@@ -20,16 +20,17 @@ jobs:
         - cd dist
         - "zip -r ../$PKG_VERSION-dev.zip ./"
         - cd ..
-        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - ls
+        - git tag v$PKG_VERSION-$TRAVIS_BUILD_NUMBER
         - "echo VERSION: $PKG_VERSION"
       deploy:
         - provider: releases
           token: $GITHUB_TOKEN
           file: $PKG_VERSION-dev.zip
           prerelease: true
-          name: v$PKG_VERSION Develop version $TRAVIS_COMMIT
+          name: v$PKG_VERSION Develop version $TRAVIS_BUILD_NUMBER
           release_notes: "这是一个开发版本，可能存在大量严重bug。请将您使用过程中发现的问题在issue中报告。"
-          cleanup: false
+          skip_cleanup: true
           on:
             branch: dev
     - stage: deploy-prerelease
@@ -43,16 +44,16 @@ jobs:
         - cd dist
         - "zip -r ../$PKG_VERSION-pre.zip ./"
         - cd ..
-        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - git tag v$PKG_VERSION-$TRAVIS_BUILD_NUMBER
         - "echo VERSION: $PKG_VERSION"
       deploy:
         - provider: releases
           token: $GITHUB_TOKEN
           file: $PKG_VERSION-pre.zip
           prerelease: true
-          name: v$PKG_VERSION Pre-release version
+          name: v$PKG_VERSION Pre-release version $TRAVIS_BUILD_NUMBER
           release_notes: "这是一个预发布版本，请将您使用过程中发现的问题在issue中报告。"
-          cleanup: false
+          skip_cleanup: true
           on:
             branch: prerelease
     - stage: deploy
@@ -66,7 +67,7 @@ jobs:
         - cd dist
         - "zip -r ../$PKG_VERSION.zip ./"
         - cd ..
-        - git tag v$PKG_VERSION-$TRAVIS_COMMIT
+        - git tag v$PKG_VERSION-$TRAVIS_BUILD_NUMBER
         - "echo VERSION: $PKG_VERSION"
       deploy:
         - provider: releases
@@ -75,6 +76,6 @@ jobs:
           name: v$PKG_VERSION
           prerelease: false
           release_notes: "![GitHub Releases](https://img.shields.io/github/downloads/Violin9906/my-ime2/$PKG_VERSION/total)"
-          cleanup: false
+          skip_cleanup: true
           on:
             branch: master
