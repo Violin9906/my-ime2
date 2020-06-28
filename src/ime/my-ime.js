@@ -177,9 +177,9 @@ var MyIME = {
     } else if (this.mode.current === 'en') {
       return false
     }
-    if (keyData.type === 'keydown' && this.mode.current === 'zh' && (!keyData.ctrlKey) && (!keyData.altKey) && (!keyData.shiftKey)) {
+    if (keyData.type === 'keydown' && this.mode.current === 'zh' && (!keyData.ctrlKey) && (!keyData.altKey)) {
       if (this.stage === 0) {
-        if (keyData.key.match(/^[a-z]$/)) {
+        if (keyData.key.match(/^[a-z]$/) && (!keyData.shiftKey)) {
           this.stage = 1
           this.inputChar(keyData.key)
           return true
