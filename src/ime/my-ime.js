@@ -2,14 +2,13 @@ var Mode = require('./mode.js')
 var Buffer = require('./buffer.js')
 var Composition = require('./composition.js')
 var Candidate = require('./candidate.js')
-
 var Parser = require('../parser/parser.js')
 var Match = require('../dict/match.js')
 
 var MyIME = {
   itemPerPage: 5,
   engineID: null,
-  contextID: null,
+  contextID: -1,
   buffer: Buffer,
   composition: Composition,
   candidate: Candidate,
@@ -42,7 +41,7 @@ var MyIME = {
     this.clearInput()
   },
   commitText: function (text) {
-    chrome.input.ime.commitText({ contextID: this.contextID, text: text })
+    chrome.input.ime.commitText({ "contextID": this.contextID, "text": text })
   },
   moveCursor: function (rel) {
     if (

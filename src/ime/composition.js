@@ -9,16 +9,16 @@ var Composition = {
   clear: function () {
     this.text = ''
     this.cursor = 0
-    chrome.input.ime.clearComposition({ contextID: this.contextID })
+    chrome.input.ime.clearComposition({ "contextID": this.contextID })
   },
   set: function (text, cursor, args) {
     this.text = text
     this.cursor = cursor
     var allowedFields = ['selectionStart', 'selectionEnd']
     var obj = {
-      contextID: this.contextID,
-      text: this.text,
-      cursor: this.cursor
+      "contextID": this.contextID,
+      "text": this.text,
+      "cursor": this.cursor
     }
     args = args || {}
     for (var i = 0; i < allowedFields.length; i++) {
