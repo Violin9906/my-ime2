@@ -7,7 +7,7 @@ var Match = require('../dict/match.js')
 
 var MyIME = {
   itemPerPage: 5,
-  engineID: null,
+  engineID: "my-ime2",
   contextID: -1,
   buffer: Buffer,
   composition: Composition,
