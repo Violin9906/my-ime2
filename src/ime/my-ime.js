@@ -6,9 +6,9 @@ var Parser = require('../parser/parser.js')
 var Match = require('../dict/match.js')
 
 var MyIME = {
-  itemPerPage: 5,
+  itemPerPage: 9,
   engineID: "my-ime2",
-  contextID: -1,
+  contextID: 1,
   buffer: Buffer,
   composition: Composition,
   candidate: Candidate,
