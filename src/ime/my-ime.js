@@ -6,9 +6,9 @@ var Parser = require('../parser/parser.js')
 var Match = require('../dict/match.js')
 
 var MyIME = {
-  itemPerPage: 5,
+  itemPerPage: 9,
   engineID: "my-ime2",
-  contextID: -1,
+  contextID: 1,
   buffer: Buffer,
   composition: Composition,
   candidate: Candidate,
@@ -159,7 +159,7 @@ var MyIME = {
     return true
   },
   choose: function (label) {
-    if (label >= 1 && label <= 5) {
+    if (label >= 1 && label <= 9) {
       return this.candidate.cursorSet(label - 1)
     } else {
       return false
@@ -303,7 +303,7 @@ var MyIME = {
           this.select()
           return true
         }
-        if (keyData.key.match(/^[1-5]$/)) {
+        if (keyData.key.match(/^[1-9]$/)) {
           this.stage = 2
           if (this.choose(keyData.key)) {
             this.select()
@@ -321,7 +321,7 @@ var MyIME = {
           this.select()
           return true
         }
-        if (keyData.key.match(/^[1-5]$/)) {
+        if (keyData.key.match(/^[1-9]$/)) {
           this.stage = 2
           if (this.choose(keyData.key)) {
             this.select()
