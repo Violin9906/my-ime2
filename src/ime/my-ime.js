@@ -5,6 +5,7 @@ var Candidate = require('./candidate.js')
 
 var Parser = require('../parser/parser.js')
 var Match = require('../dict/match.js')
+var SelfLearning = require('../dict/self-learning.js')
 
 var MyIME = {
   itemPerPage: 5,
@@ -97,7 +98,9 @@ var MyIME = {
         this.buffer.calcSelectedLetter() ===
         this.buffer.calcCursorWithoutSpace()
       ) {
-        this.commitText(this.buffer.mergeAllSelected())
+        word = this.buffer.mergeAllSelected()
+        SelfLearning.learn(word, this.buffer.parsed.spacedText)
+        this.commitText(word)
         this.clearInput()
         return true
       }

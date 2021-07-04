@@ -1,7 +1,7 @@
 const BasicDict = require('./basic.js')
-const TestDict = require('./test.js')
+const LearnedDict = require('./self-learning.js').dict
 
-const Dicts = [TestDict, BasicDict]
+const Dicts = [LearnedDict, BasicDict]
 
 var Match = {
   result: [],
@@ -13,7 +13,7 @@ var Match = {
 	partial_text = text.slice(0, index)
 	if (Dicts[i][partial_text]) {
 	  for (char in Dicts[i][partial_text]) {
-	    this.result.push({ char: Dicts[i][partial_text][char], pinyin: partial_text.replace(' ', '') })
+	    this.result.push({ char: Dicts[i][partial_text][char], pinyin: partial_text.replaceAll(' ', '') })
 	  }
 	}
 	index = text.slice(0, index).lastIndexOf(' ')
