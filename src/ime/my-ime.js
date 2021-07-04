@@ -285,11 +285,11 @@ var MyIME = {
           this.candidate.cursorDown()
           return true
         }
-        if (keyData.key === '=') {
+        if (keyData.key === '=' || keyData.key === '.') {
           this.candidate.pageDown()
           return true
         }
-        if (keyData.key === '-') {
+        if (keyData.key === '-' || keyData.key === ',') {
           this.candidate.pageUp()
           return true
         }
