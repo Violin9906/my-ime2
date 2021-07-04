@@ -268,7 +268,7 @@ var MyIME = {
           this.inputChar(keyData.key)
           return true
         }
-	if (this.stage === 1) {
+        if (this.stage === 1) {
           if (keyData.key === 'Backspace') {
             this.removeChar()
             return true
@@ -281,13 +281,13 @@ var MyIME = {
             this.moveCursor(-1)
             return true
           }
-	}
-	else {
+        }
+        else {
           if (keyData.key === 'Backspace' || keyData.key === 'Left') {
             this.deSelect()
             return true
           }
-	}
+        }
         if (keyData.key === 'Up') {
           this.candidate.cursorUp()
           return true
