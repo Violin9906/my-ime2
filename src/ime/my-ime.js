@@ -260,23 +260,31 @@ var MyIME = {
           return true
         }
         return false
-      } else if (this.stage === 1) {
+      } else {
         if (keyData.key.match(/^[a-zA-z;]$/)) {
           this.inputChar(keyData.key)
           return true
         }
-        if (keyData.key === 'Backspace') {
-          this.removeChar()
-          return true
-        }
-        if (keyData.key === 'Right') {
-          this.moveCursor(1)
-          return true
-        }
-        if (keyData.key === 'Left') {
-          this.moveCursor(-1)
-          return true
-        }
+	if (this.stage === 1) {
+          if (keyData.key === 'Backspace') {
+            this.removeChar()
+            return true
+          }
+          if (keyData.key === 'Right') {
+            this.moveCursor(1)
+            return true
+          }
+          if (keyData.key === 'Left') {
+            this.moveCursor(-1)
+            return true
+          }
+	}
+	else {
+          if (keyData.key === 'Backspace' || keyData.key === 'Left') {
+            this.deSelect()
+            return true
+          }
+	}
         if (keyData.key === 'Up') {
           this.candidate.cursorUp()
           return true
@@ -309,36 +317,6 @@ var MyIME = {
           if (this.choose(keyData.key)) {
             this.select()
           }
-          return true
-        }
-      } /* this.stage === 2 */ else {
-        // Cannot move cursor, use backspace or Left will deselect the character, and the cursor will stay at the right-end. Input a-z, A-Z or ';' will make the stage back to 1.
-        if (
-          keyData.key === ' ' &&
-          !keyData.ctrlKey &&
-          !keyData.altKey &&
-          !keyData.shiftKey
-        ) {
-          this.select()
-          return true
-        }
-        if (keyData.key.match(/^[1-5]$/)) {
-          this.stage = 2
-          if (this.choose(keyData.key)) {
-            this.select()
-          }
-          return true
-        }
-        if (keyData.key === 'Backspace' || keyData.key === 'Left') {
-          this.deSelect()
-          return true
-        }
-        if (keyData.key === '=') {
-          this.candidate.pageDown()
-          return true
-        }
-        if (keyData.key === '-') {
-          this.candidate.pageUp()
           return true
         }
       }
