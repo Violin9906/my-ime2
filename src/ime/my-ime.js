@@ -81,9 +81,10 @@ var MyIME = {
     }
     if (spacedStr === '') {
       this.clearInput()
+    } else {
+      this.composition.set(spacedStr, this.buffer.calcCursor())
+      this.candidate.set(this.buffer.parsed.spacedText)
     }
-    this.composition.set(spacedStr, this.buffer.calcCursor())
-    this.candidate.set(this.buffer.parsed.spacedText)
   },
   clearInput: function () {
     this.buffer.clear()
