@@ -17,7 +17,7 @@ var Match = {
             var word = Dicts[i][partialText][j]
             if (!appeared.has(word)) {
               appeared.add(word)
-              this.result.push({ char: word, pinyin: partialText.replaceAll(' ', '') })
+              this.result.push({ char: word, pinyin: partialText.replaceAll(' ', ''), spacedPinyin: partialText })
             }
           }
         }

@@ -8,6 +8,11 @@ var SelfLearning = {
       this.dict[pinyin].push(word)
     }
   },
+  unlearn: function (word, pinyin) {
+    if (pinyin in this.dict) {
+      this.dict[pinyin] = this.dict[pinyin].filter(item => item !== word)
+    }
+  },
   load_dict: function () {
     console.log('Loading learned dictionary.')
     chrome.storage.local.get('learned_dict', (result) => {

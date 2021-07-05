@@ -134,6 +134,16 @@ var MyIME = {
     }
     return false
   },
+  deleteCandidate: function () {
+    var select = this.candidate.select()
+    if (select) {
+      SelfLearning.unlearn(select.char, select.spacedPinyin)
+      // update candidate
+      this.candidate.set(
+        this.buffer.parsed.spacedText.slice(this.buffer.calcSelectedLetterWithSpace())
+      )
+    }
+  },
   deSelect: function () {
     // when user use backspace or left under stage 2
     // pop buffer
@@ -323,6 +333,11 @@ var MyIME = {
           if (this.choose(keyData.key)) {
             this.select()
           }
+          return true
+        }
+        // For some reason on my computer, keyData.key for the delete key is '\x7f'...
+        if (keyData.key === 'Delete' || keyData.code === 'Delete') {
+          this.deleteCandidate()
           return true
         }
       }
