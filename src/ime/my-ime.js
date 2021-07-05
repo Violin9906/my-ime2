@@ -102,7 +102,7 @@ var MyIME = {
         this.buffer.calcSelectedLetter() ===
         this.buffer.calcCursorWithoutSpace()
       ) {
-        word = this.buffer.mergeAllSelected()
+        var word = this.buffer.mergeAllSelected()
         SelfLearning.learn(word, this.buffer.parsed.spacedText)
         this.commitText(word)
         this.clearInput()
@@ -285,8 +285,7 @@ var MyIME = {
             this.moveCursor(-1)
             return true
           }
-        }
-        else {
+        } else {
           if (keyData.key === 'Backspace' || keyData.key === 'Left') {
             this.deSelect()
             return true

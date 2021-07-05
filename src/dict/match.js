@@ -11,13 +11,13 @@ var Match = {
     for (var i in Dicts) {
       var index = text.length
       while (index !== -1) {
-        partial_text = text.slice(0, index)
-        if (Dicts[i][partial_text]) {
-          for (j in Dicts[i][partial_text]) {
-            word = Dicts[i][partial_text][j]
+        var partialText = text.slice(0, index)
+        if (Dicts[i][partialText]) {
+          for (var j in Dicts[i][partialText]) {
+            var word = Dicts[i][partialText][j]
             if (!appeared.has(word)) {
               appeared.add(word)
-              this.result.push({ char: word, pinyin: partial_text.replaceAll(' ', '') })
+              this.result.push({ char: word, pinyin: partialText.replaceAll(' ', '') })
             }
           }
         }

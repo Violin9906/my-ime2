@@ -62,7 +62,7 @@ var Buffer = {
   calcSelectedLetterWithSpace: function () {
     var selectedLetter = this.calcSelectedLetter()
     var spaceCount = 0
-    for(var i = 0; this.parsed.space[i] <= selectedLetter; i++) {
+    for (var i = 0; this.parsed.space[i] <= selectedLetter; i++) {
       spaceCount++
     }
     return selectedLetter + spaceCount
