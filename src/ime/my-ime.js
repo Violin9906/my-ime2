@@ -89,7 +89,6 @@ var MyIME = {
     this.buffer.clear()
     this.composition.clear()
     this.candidate.clear()
-    this.candidate.hide()
     this.stage = 0
   },
   select: function () {
