@@ -24,8 +24,9 @@ var MyIME = {
   Init: function (engineID) {
     this.engineID = engineID
   },
-  onFocus: function (contextID) {
-    this.contextID = contextID
+  onFocus: function (context) {
+    this.context = context
+    this.contextID = context.contextID
     this.buffer.Init(this.parser)
     this.composition.Init(this.contextID)
     this.candidate.Init(
@@ -103,7 +104,9 @@ var MyIME = {
         this.buffer.calcCursorWithoutSpace()
       ) {
         var word = this.buffer.mergeAllSelected()
-        SelfLearning.learn(word, this.buffer.parsed.spacedText)
+        if (this.context.shouldDoLearning) {
+          SelfLearning.learn(word, this.buffer.parsed.spacedText)
+        }
         this.commitText(word)
         this.clearInput()
         return true

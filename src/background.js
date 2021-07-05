@@ -4,8 +4,7 @@ var ime = null
 
 chrome.input.ime.onFocus.addListener(function (context) {
   console.log('onFocus:' + context.contextID)
-  console.log(context)
-  ime.onFocus(context.contextID)
+  ime.onFocus(context)
 })
 
 chrome.input.ime.onBlur.addListener(function (contextID) {
