@@ -9,7 +9,11 @@ var Composition = {
   clear: function () {
     this.text = ''
     this.cursor = 0
-    chrome.input.ime.clearComposition({ contextID: this.contextID })
+    chrome.input.ime.clearComposition({ contextID: this.contextID }, (success) => {
+      if (!success) {
+        console.log('clearComposition failed:', chrome.runtime.lastError.message)
+      }
+    })
   },
   set: function (text, cursor, args) {
     this.text = text

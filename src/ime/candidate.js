@@ -38,6 +38,11 @@ var Candidate = {
         pageSize: this.itemPerPage,
         windowPosition: 'cursor'
       }
+    },
+    (success) => {
+      if (!success) {
+        console.log('setCandidateWindowProperties failed:', chrome.runtime.lastError.message)
+      }
     })
   },
   clear: function () {
