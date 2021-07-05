@@ -27,7 +27,7 @@ chrome.input.ime.onActivate.addListener(function (engineID) {
 
 chrome.input.ime.onDeactivated.addListener(function (engineID) {
   console.log('onDeactivated:' + engineID)
-  ime.clearInput()
+  ime.onDeactivated()
   ime = null
 })
 
