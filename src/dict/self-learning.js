@@ -16,9 +16,7 @@ var SelfLearning = {
   loadDict: function () {
     console.log('Loading learned dictionary.')
     chrome.storage.local.get('learnedDict', (result) => {
-      if (result) {
-        Object.assign(this.dict, result.learnedDict)
-      }
+      Object.assign(this.dict, result.learnedDict)
     })
   },
   saveDict: function () {
