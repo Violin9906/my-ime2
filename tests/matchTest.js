@@ -17,7 +17,7 @@ describe('Basic match test:', function () {
     // console.log(Match.get('ni'))
     expect(Match.trans('ni')[0].char).to.equal('你')
   })
-  it('Partical match test 1', function () {
+  it('Partial match test 1', function () {
     // console.log(Match.get('ni hao a'))
     expect(Match.trans('ni hao a')[0].char).to.equal('你')
   })
