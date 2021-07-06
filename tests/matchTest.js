@@ -1,3 +1,12 @@
+global.chrome = {
+  storage: {
+    local: {
+      get: (keys, callback) => {
+        callback({})
+      }
+    }
+  }
+}
 const Match = require('../src/dict/match.js')
 
 const { describe } = require('mocha')
