@@ -23,6 +23,7 @@ var MyIME = {
 
   Init: function (engineID) {
     this.engineID = engineID
+    Mode.current = 'zh'
   },
   onFocus: function (context) {
     this.context = context
