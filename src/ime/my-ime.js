@@ -45,7 +45,7 @@ var MyIME = {
   },
   onDeactivated: function () {
     this.clearInput()
-    SelfLearning.save_dict()
+    SelfLearning.saveDict()
   },
   commitText: function (text) {
     chrome.input.ime.commitText({ contextID: this.contextID, text: text })
