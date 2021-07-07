@@ -305,6 +305,11 @@ var MyIME = {
             return true
           }
         }
+        if (keyData.key === 'Enter') {
+          this.commitText(this.buffer.raw)
+          this.clearInput()
+          return true
+        }
         if (keyData.key === 'Up') {
           this.candidate.cursorUp()
           return true
