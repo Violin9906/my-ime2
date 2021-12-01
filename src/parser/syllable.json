@@ -155,7 +155,7 @@
     "eng": true,
     "er": false,
     "i": true,
-    "ia": false,
+    "ia": true,
     "ian": true,
     "iang": false,
     "iao": true,
@@ -385,15 +385,15 @@
     "ou": true,
     "u": true,
     "ua": false,
-    "uai": true,
-    "uan": false,
+    "uai": false,
+    "uan": true,
     "uang": false,
-    "ue": true,
+    "ue": false,
     "ui": false,
     "un": true,
     "uo": true,
     "v": true,
-    "ve": false
+    "ve": true
   },
   "m": {
     "a": true,

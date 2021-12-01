@@ -1,6 +1,6 @@
 var Mode = {
   inputWhilePressShift: false,
-  current: 'en',
+  current: 'zh',
   switchMode: function (keyData) {
     if (keyData.type === 'keydown' && keyData.key !== 'Shift' && keyData.shiftKey) {
       this.inputWhilePressShift = true

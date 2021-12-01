@@ -1,5 +1,5 @@
 var Candidate = {
-  engineID: null,
+  engineID: "my-ime2",
   contextID: null,
   rawText: '',
   candidates: [],
@@ -18,25 +18,30 @@ var Candidate = {
   },
   show: function () {
     chrome.input.ime.setCandidateWindowProperties({
-      engineID: this.engineID,
+      "engineID": this.engineID,
       properties: {
-        visible: true,
-        cursorVisible: true,
-        vertical: true,
-        pageSize: this.itemPerPage,
-        windowPosition: 'cursor'
+        "visible": true,
+        "cursorVisible": true,
+        "vertical": true,
+        "pageSize": this.itemPerPage,
+        "windowPosition": "cursor"
       }
     })
   },
   hide: function () {
     chrome.input.ime.setCandidateWindowProperties({
-      engineID: this.engineID,
+      "engineID": this.engineID,
       properties: {
-        visible: false,
-        cursorVisible: false,
-        vertical: true,
-        pageSize: this.itemPerPage,
-        windowPosition: 'cursor'
+        "visible": false,
+        "cursorVisible": false,
+        "vertical": true,
+        "pageSize": this.itemPerPage,
+        "windowPosition": "cursor"
+      }
+    },
+    (success) => {
+      if (!success) {
+        console.log('setCandidateWindowProperties failed:', chrome.runtime.lastError.message)
       }
     })
   },
@@ -57,15 +62,15 @@ var Candidate = {
         this.transBack = transerResult
         for (var j = 0; j < this.itemPerPage && j < this.transBack.length; j++) {
           this.candidates[j] = {
-            candidate: this.transBack[j].char,
-            id: j,
-            label: (j + 1).toString()
+            "candidate": this.transBack[j].char,
+            "id": j,
+            "label": (j + 1).toString()
           }
         }
         this.page = 0
         chrome.input.ime.setCandidates({
-          contextID: this.contextID,
-          candidates: this.candidates
+          "contextID": this.contextID,
+          "candidates": this.candidates
         })
         this.cursorSet(0)
         this.show()
@@ -82,9 +87,9 @@ var Candidate = {
         for (var j = 0; j < this.itemPerPage; j++) {
           if (j < this.transBack.length - this.page * this.itemPerPage) {
             this.candidates[j] = {
-              candidate: this.transBack[this.page * this.itemPerPage + j].char,
-              id: j,
-              label: (j + 1).toString()
+              "candidate": this.transBack[this.page * this.itemPerPage + j].char,
+              "id": j,
+              "label": (j + 1).toString()
             }
           } else {
             this.candidates = this.candidates.slice(0, j)
@@ -92,8 +97,8 @@ var Candidate = {
           }
         }
         chrome.input.ime.setCandidates({
-          contextID: this.contextID,
-          candidates: this.candidates
+          "contextID": this.contextID,
+          "candidates": this.candidates
         })
         this.cursorSet(0)
         return true
@@ -112,9 +117,9 @@ var Candidate = {
         for (var j = 0; j < this.itemPerPage; j++) {
           if (j < this.transBack.length - this.page * this.itemPerPage) {
             this.candidates[j] = {
-              candidate: this.transBack[this.page * this.itemPerPage + j].char,
-              id: j,
-              label: (j + 1).toString()
+              "candidate": this.transBack[this.page * this.itemPerPage + j].char,
+              "id": j,
+              "label": (j + 1).toString()
             }
           } else {
             this.candidates = this.candidates.slice(0, j)
@@ -122,8 +127,8 @@ var Candidate = {
           }
         }
         chrome.input.ime.setCandidates({
-          contextID: this.contextID,
-          candidates: this.candidates
+          "contextID": this.contextID,
+          "candidates": this.candidates
         })
         this.cursorSet(0)
         return true
@@ -138,8 +143,8 @@ var Candidate = {
     if (id >= 0 && id < this.candidates.length) {
       this.cursor = id
       chrome.input.ime.setCursorPosition({
-        contextID: this.contextID,
-        candidateID: this.cursor
+        "contextID": this.contextID,
+        "candidateID": this.cursor
       })
       return true
     } else {
@@ -150,15 +155,15 @@ var Candidate = {
     if (this.cursor < this.candidates.length - 1) {
       this.cursor++
       chrome.input.ime.setCursorPosition({
-        contextID: this.contextID,
-        candidateID: this.cursor
+        "contextID": this.contextID,
+        "candidateID": this.cursor
       })
     } else {
       if (this.pageDown()) {
         this.cursor = 0
         chrome.input.ime.setCursorPosition({
-          contextID: this.contextID,
-          candidateID: this.cursor
+          "contextID": this.contextID,
+          "candidateID": this.cursor
         })
       }
     }
@@ -167,15 +172,15 @@ var Candidate = {
     if (this.cursor > 0) {
       this.cursor--
       chrome.input.ime.setCursorPosition({
-        contextID: this.contextID,
-        candidateID: this.cursor
+        "contextID": this.contextID,
+        "candidateID": this.cursor
       })
     } else {
       if (this.pageUp()) {
         this.cursor = this.itemPerPage - 1
         chrome.input.ime.setCursorPosition({
-          contextID: this.contextID,
-          candidateID: this.cursor
+          "contextID": this.contextID,
+          "candidateID": this.cursor
         })
       }
     }

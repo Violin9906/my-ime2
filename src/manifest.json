@@ -16,7 +16,8 @@
     ]
   },
   "permissions": [
-    "input"
+    "input",
+    "storage"
   ],
   "input_components": [
     {

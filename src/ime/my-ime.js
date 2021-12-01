@@ -2,14 +2,14 @@ var Mode = require('./mode.js')
 var Buffer = require('./buffer.js')
 var Composition = require('./composition.js')
 var Candidate = require('./candidate.js')
-
 var Parser = require('../parser/parser.js')
 var Match = require('../dict/match.js')
+var SelfLearning = require('../dict/self-learning.js')
 
 var MyIME = {
-  itemPerPage: 5,
-  engineID: null,
-  contextID: null,
+  itemPerPage: 9,
+  engineID: "my-ime2",
+  contextID: 1,
   buffer: Buffer,
   composition: Composition,
   candidate: Candidate,
@@ -22,9 +22,11 @@ var MyIME = {
 
   Init: function (engineID) {
     this.engineID = engineID
+    Mode.current = 'zh'
   },
-  onFocus: function (contextID) {
-    this.contextID = contextID
+  onFocus: function (context) {
+    this.context = context
+    this.contextID = context.contextID
     this.buffer.Init(this.parser)
     this.composition.Init(this.contextID)
     this.candidate.Init(
@@ -41,8 +43,12 @@ var MyIME = {
   onReset: function () {
     this.clearInput()
   },
+  onDeactivated: function () {
+    this.clearInput()
+    SelfLearning.saveDict()
+  },
   commitText: function (text) {
-    chrome.input.ime.commitText({ contextID: this.contextID, text: text })
+    chrome.input.ime.commitText({ "contextID": this.contextID, "text": text })
   },
   moveCursor: function (rel) {
     if (
@@ -75,15 +81,15 @@ var MyIME = {
     }
     if (spacedStr === '') {
       this.clearInput()
+    } else {
+      this.composition.set(spacedStr, this.buffer.calcCursor())
+      this.candidate.set(this.buffer.parsed.spacedText)
     }
-    this.composition.set(spacedStr, this.buffer.calcCursor())
-    this.candidate.set(this.buffer.parsed.spacedText)
   },
   clearInput: function () {
     this.buffer.clear()
     this.composition.clear()
     this.candidate.clear()
-    this.candidate.hide()
     this.stage = 0
   },
   select: function () {
@@ -97,7 +103,11 @@ var MyIME = {
         this.buffer.calcSelectedLetter() ===
         this.buffer.calcCursorWithoutSpace()
       ) {
-        this.commitText(this.buffer.mergeAllSelected())
+        var word = this.buffer.mergeAllSelected()
+        if (this.context.shouldDoLearning) {
+          SelfLearning.learn(word, this.buffer.parsed.spacedText)
+        }
+        this.commitText(word)
         this.clearInput()
         return true
       }
@@ -126,6 +136,16 @@ var MyIME = {
       return true
     }
     return false
+  },
+  deleteCandidate: function () {
+    var select = this.candidate.select()
+    if (select) {
+      SelfLearning.unlearn(select.char, select.spacedPinyin)
+      // update candidate
+      this.candidate.set(
+        this.buffer.parsed.spacedText.slice(this.buffer.calcSelectedLetterWithSpace())
+      )
+    }
   },
   deSelect: function () {
     // when user use backspace or left under stage 2
@@ -160,7 +180,7 @@ var MyIME = {
     return true
   },
   choose: function (label) {
-    if (label >= 1 && label <= 5) {
+    if (label >= 1 && label <= 9) {
       return this.candidate.cursorSet(label - 1)
     } else {
       return false
@@ -260,21 +280,33 @@ var MyIME = {
           return true
         }
         return false
-      } else if (this.stage === 1) {
+      } else {
         if (keyData.key.match(/^[a-zA-z;]$/)) {
           this.inputChar(keyData.key)
           return true
         }
-        if (keyData.key === 'Backspace') {
-          this.removeChar()
-          return true
+        if (this.stage === 1) {
+          if (keyData.key === 'Backspace') {
+            this.removeChar()
+            return true
+          }
+          if (keyData.key === 'Right') {
+            this.moveCursor(1)
+            return true
+          }
+          if (keyData.key === 'Left') {
+            this.moveCursor(-1)
+            return true
+          }
+        } else {
+          if (keyData.key === 'Backspace' || keyData.key === 'Left') {
+            this.deSelect()
+            return true
+          }
         }
-        if (keyData.key === 'Right') {
-          this.moveCursor(1)
-          return true
-        }
-        if (keyData.key === 'Left') {
-          this.moveCursor(-1)
+        if (keyData.key === 'Enter') {
+          this.commitText(this.buffer.raw)
+          this.clearInput()
           return true
         }
         if (keyData.key === 'Up') {
@@ -285,11 +317,11 @@ var MyIME = {
           this.candidate.cursorDown()
           return true
         }
-        if (keyData.key === '=') {
+        if (keyData.key === '=' || keyData.key === '.') {
           this.candidate.pageDown()
           return true
         }
-        if (keyData.key === '-') {
+        if (keyData.key === '-' || keyData.key === ',') {
           this.candidate.pageUp()
           return true
         }
@@ -304,41 +336,16 @@ var MyIME = {
           this.select()
           return true
         }
-        if (keyData.key.match(/^[1-5]$/)) {
+        if (keyData.key.match(/^[1-9]$/)) {
           this.stage = 2
           if (this.choose(keyData.key)) {
             this.select()
           }
           return true
         }
-      } /* this.stage === 2 */ else {
-        // Cannot move cursor, use backspace or Left will deselect the character, and the cursor will stay at the right-end. Input a-z, A-Z or ';' will make the stage back to 1.
-        if (
-          keyData.key === ' ' &&
-          !keyData.ctrlKey &&
-          !keyData.altKey &&
-          !keyData.shiftKey
-        ) {
-          this.select()
-          return true
-        }
-        if (keyData.key.match(/^[1-5]$/)) {
-          this.stage = 2
-          if (this.choose(keyData.key)) {
-            this.select()
-          }
-          return true
-        }
-        if (keyData.key === 'Backspace' || keyData.key === 'Left') {
-          this.deSelect()
-          return true
-        }
-        if (keyData.key === '=') {
-          this.candidate.pageDown()
-          return true
-        }
-        if (keyData.key === '-') {
-          this.candidate.pageUp()
+        // For some reason on my computer, keyData.key for the delete key is '\x7f'...
+        if (keyData.key === 'Delete' || keyData.code === 'Delete') {
+          this.deleteCandidate()
           return true
         }
       }
