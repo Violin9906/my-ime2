@@ -1,3 +1,5 @@
+**说明：本项目已弃用，我正在开发一个基于神经网络的Chrome OS输入法，目标是支持全拼和双拼，并争取比Chrome OS自带输入法更好用。请移步https://github.com/My-IME**
+
 # my-ime2
 > A Shuangpin IME for Chrome OS.  
 > 用于Chrome OS的双拼输入法
